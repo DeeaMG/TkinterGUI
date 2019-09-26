@@ -59,15 +59,15 @@ class Calculator:
                                  command=lambda: self.LoadToggleButton('0'), text='0', font=('Courier New', 16, 'bold'))
 
         # Operations.
-        addition 		  = Button(self.wndBoard, padx=16, pady=30, bd=0, bg='gray80',
+        addition 	  = Button(self.wndBoard, padx=16, pady=30, bd=0, bg='gray80',
                                    command=lambda: self.LoadToggleButton('+'), text='+', font=('Courier New', 20))
         substraction 	  = Button(self.wndBoard, padx=16, pady=30, bd=0, bg='gray80',
                                    command=lambda: self.LoadToggleButton('-'), text='-', font=('Courier New', 20))
         multiplication 	  = Button(self.wndBoard, padx=16, pady=30, bd=0, bg='gray80',
                                    command=lambda: self.LoadToggleButton('*'), text='×', font=('Courier New', 20))
-        division 		  = Button(self.wndBoard, padx=16, pady=30, bd=0, bg='gray80',
+        division 	  = Button(self.wndBoard, padx=16, pady=30, bd=0, bg='gray80',
                                    command=lambda: self.LoadToggleButton('/'), text='÷', font=('Courier New', 20))
-        factorial 		  = Button(self.wndBoard, padx=10, pady=26, bd=0, bg='gray80',
+        factorial 	  = Button(self.wndBoard, padx=10, pady=26, bd=0, bg='gray80',
                                    command=lambda: self.LoadToggleButton('n!'), text='n!', font=('Courier New', 14))
         square_root 	  = Button(self.wndBoard, padx=10, pady=25, bd=0, bg='gray80',
                                    command=lambda: self.LoadToggleButton('sqrt'), text='√', font=('Courier New', 20))
@@ -75,7 +75,7 @@ class Calculator:
                                    command=lambda: self.LoadToggleButton('**2'), text='x^2', font=('Courier New', 14))
         number_cubed 	  = Button(self.wndBoard, padx=5, pady=26, bd=0, bg='gray80',
                                    command=lambda: self.LoadToggleButton('**3'), text='x^3', font=('Courier New', 14))
-        pi 				  = Button(self.wndBoard, padx=16, pady=25, bd=0, bg='gray80',
+        pi 		  = Button(self.wndBoard, padx=16, pady=25, bd=0, bg='gray80',
                                    command=lambda: self.LoadToggleButton('3.14'), text='π', font=('Courier New', 14))
         floating_point    = Button(self.wndBoard, padx=9, pady=24, bd=0, bg='gray80',
                                    command=lambda: self.LoadToggleButton('.'), text='.', font=('Courier New', 20))
@@ -83,11 +83,11 @@ class Calculator:
                                    command=lambda: self.LoadToggleButton('('), text='(', font=('Courier New', 20))
         close_paranthesis = Button(self.wndBoard, padx=10, pady=24, bd=0, bg='gray80',
                                    command=lambda: self.LoadToggleButton(')'), text=')', font=('Courier New', 20))
-        backspace 		  = Button(self.wndBoard, padx=63, pady=10, bd=0, bg='gray80',
+        backspace 	  = Button(self.wndBoard, padx=63, pady=10, bd=0, bg='gray80',
                                    command=lambda: self.LoadToggleButton('del'), text='⌫', font=('Courier New', 14))
-        clear 			  = Button(self.wndBoard, padx=63, pady=2, bd=0, bg='gray80',
+        clear 	 	  = Button(self.wndBoard, padx=63, pady=2, bd=0, bg='gray80',
                                    command=lambda: self.LoadToggleButton('C'), text='C', font=('Courier New', 20))
-        equal 			  = Button(self.wndBoard, padx=10, pady=24, bd=0, bg='gray80',
+        equal 		  = Button(self.wndBoard, padx=10, pady=24, bd=0, bg='gray80',
                                    command=lambda: self.LoadToggleButton('='), text='=', font=('Courier New', 20))
 
 
