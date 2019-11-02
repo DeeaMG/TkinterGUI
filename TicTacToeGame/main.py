@@ -10,6 +10,10 @@ class TicTacToeGame:
     MAX_COL = 3
 
     def __init__(self):
+        self.player1 = ''
+        self.player2 = ''
+        self.playerComputer = ''
+
         self.game_still_going = True
         self.mainArray = [
             [None, None, None],
@@ -45,17 +49,29 @@ class TicTacToeGame:
             self.CheckWinner()
             self.SwitchTurn()
 
+    def SetSecondPlayer(self):
+        question = input('Do you want to play with a friend? (YES/NO) ')
+
+        if question[0].upper() == 'Y':
+            self.player2 = self.secondPlayer
+        else:
+            self.playerComputer = self.secondPlayer
+
     def SetPlayers(self):
         self.player1 = input('Choose witch player you want to be X/O: ').upper()
         while self.player1 not in ['X', 'O']:
             self.player1 = input('Choose witch player you want to be X/O: ').upper()
 
         if self.player1 == 'X':
-            self.playerComputer = "O"
+            self.secondPlayer = 'O'
             self.currentPlayer = self.player1
         else:
-            self.playerComputer = "X"
-            self.currentPlayer = self.playerComputer
+            self.secondPlayer = "X"
+            self.currentPlayer = self.secondPlayer
+
+        self.SetSecondPlayer()
+
+        print(self.player1, self.player2, self.playerComputer)
 
     def GridDisplay(self, newLine='\n'):
         result = ''
@@ -67,15 +83,15 @@ class TicTacToeGame:
 
     def SwitchTurn(self):
         if self.currentPlayer == self.player1:
-            self.currentPlayer = self.playerComputer
+            self.currentPlayer = self.secondPlayer
         else:
             self.currentPlayer = self.player1
 
     def ShowTurn(self):
-        if self.currentPlayer == self.player1:
+        if self.currentPlayer == self.player1 or self.currentPlayer == self.player2:
             print(
                 "_____________\n" +
-                "Is your turn.".format(self.currentPlayer) +
+                "Is {} turn.".format(self.currentPlayer) +
                 "\n_____________"
             )
         elif self.currentPlayer == self.playerComputer:
@@ -108,11 +124,11 @@ class TicTacToeGame:
         index, position = self.GetColByIndex(position)
 
         # Ask's again for position.
-        if player == self.player1 and index == -1:
+        if (player == self.player1 or player == self.player2) and index == -1:
             print("This is a wrong position, please choose one from 1 to 9")
             self.LoadPosition()
 
-        elif player == self.player1 and self.mainArray[index][position]:
+        elif (player == self.player1 or player == self.player2) and self.mainArray[index][position]:
             print("This position is busy, choose another one.")
             self.LoadPosition()
 
@@ -126,7 +142,7 @@ class TicTacToeGame:
 
     # Get position from the current player(either player1 or playerComputer).
     def LoadPosition(self):
-        if self.currentPlayer == self.player1:
+        if self.currentPlayer == self.player1 or self.currentPlayer == self.player2:
             position = input('Choose a position from 1 to 9: ')
             if position.isdigit():
                 pos = int(position)
