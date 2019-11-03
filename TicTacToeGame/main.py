@@ -54,10 +54,10 @@ class TicTacToeGame:
             self.SwitchTurn()
 
     def SetPlayers(self):
-        self.player1Name = input(self.TranslateDict[GET_NAME_MSG])
-        self.player1 = input(self.TranslateDict[CHOOSE_PLAYER_MSG]).upper()
+        self.player1Name = input(self.TranslateDict['GET_NAME_MSG'])
+        self.player1 = input(self.TranslateDict['CHOOSE_PLAYER_MSG']).upper()
         while self.player1 not in ['X', 'O']:
-            self.player1 = input(self.TranslateDict[CHOOSE_PLAYER_MSG]).upper()
+            self.player1 = input(self.TranslateDict['CHOOSE_PLAYER_MSG']).upper()
 
         if self.player1 == 'X':
             self.secondPlayer = 'O'
@@ -69,10 +69,10 @@ class TicTacToeGame:
         self.SetSecondPlayer()
 
     def SetSecondPlayer(self):
-        question = input(self.TranslateDict[PLAY_WITH_FRIEND_MSG])
+        question = input(self.TranslateDict['PLAY_WITH_FRIEND_MSG'])
 
         if question[0].upper() == 'Y':
-            self.player2Name = input(self.TranslateDict[GET_NAME_MSG])
+            self.player2Name = input(self.TranslateDict['GET_NAME_MSG'])
             self.player2 = self.secondPlayer
         else:
             self.playerComputer = self.secondPlayer
@@ -87,23 +87,23 @@ class TicTacToeGame:
 
     def ShowTurn(self):
         if self.currentPlayer == self.player1 or self.currentPlayer == self.player2:
-            print(self.TranslateDict[PLAYER_TURN_MSG][0] +
-                  self.TranslateDict[PLAYER_TURN_MSG][1].format(self.GetName(), self.currentPlayer) +
-                  self.TranslateDict[PLAYER_TURN_MSG][2]
+            print(self.TranslateDict['PLAYER_TURN_MSG'][0] +
+                  self.TranslateDict['PLAYER_TURN_MSG'][1].format(self.GetName(), self.currentPlayer) +
+                  self.TranslateDict['PLAYER_TURN_MSG'][2]
                   )
         elif self.currentPlayer == self.playerComputer:
-            result = self.TranslateDict[COMPUTER_TURN_MSG][0] + self.TranslateDict[COMPUTER_TURN_MSG][1].format(self.currentPlayer)
+            result = self.TranslateDict['COMPUTER_TURN_MSG'][0] + self.TranslateDict['COMPUTER_TURN_MSG'][1].format(self.currentPlayer)
             print(result, end='')
             for i in range(3):
                 if i == 0:
                     sleep(1)
                 print(".", end='')
                 sleep(1)
-            print(self.TranslateDict[COMPUTER_TURN_MSG][2])
+            print(self.TranslateDict['COMPUTER_TURN_MSG'][2])
 
     def LoadPosition(self):
         if self.currentPlayer == self.player1 or self.currentPlayer == self.player2:
-            position = input(self.TranslateDict[ASK_FOR_POS_MSG])
+            position = input(self.TranslateDict['ASK_FOR_POS_MSG'])
             if position.isdigit():
                 pos = int(position)
                 if pos in self.POSSIBLE_POSITIONS:
@@ -132,13 +132,13 @@ class TicTacToeGame:
             self.currentPlayer = self.player1
 
     def PlayAgain(self):
-        answer = input(self.TranslateDict[PLAY_AGAIN_MSG])
+        answer = input(self.TranslateDict['PLAY_AGAIN_MSG'])
         if answer[0].upper() == 'Y':
             print('\n\n\n')
             playAgain = TicTacToeGame()
             playAgain.PlayGame()
         elif answer[0].upper() != 'Y':
-            print(self.TranslateDict[GOODBYE_MSG])
+            print(self.TranslateDict['GOODBYE_MSG'])
 
     # Setting both in the mainArray and in the diplayedGrid the player, on the position he chose.
     def SetColByIndex(self, position, player):
@@ -147,11 +147,11 @@ class TicTacToeGame:
 
         # Ask's again for position.
         if (player == self.player1 or player == self.player2) and index == -1:
-            print(self.TranslateDict[POS_ERR_MSG_LIST][0])
+            print(self.TranslateDict['POS_ERR_MSG_LIST'][0])
             self.LoadPosition()
 
         elif (player == self.player1 or player == self.player2) and self.mainArray[index][position]:
-            print(self.TranslateDict[POS_ERR_MSG_LIST][1])
+            print(self.TranslateDict['POS_ERR_MSG_LIST'][1])
             self.LoadPosition()
 
         # Changes elements from mainArray and displayedGrid (from position [index][position]) with the current player.
