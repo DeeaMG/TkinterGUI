@@ -16,7 +16,7 @@ class TicTacToeGame:
         'PLAYER_TURN_MSG'         : ["_____________\n", "{} turn.\n{} moves.", "\n_____________"],
         'COMPUTER_TURN_MSG'       : ["_____________\n", "Is {}'s turn, wait", "\n_____________"],
         'GET_NAME_MSG'            : 'Enter your name: ',
-        'CHOOSE_PLAYER_MSG'       : 'Choose witch player you want to be X/O: ',
+        'CHOOSE_PLAYER_MSG'       : 'Choose which player you want to be X/O: ',
         'ASK_FOR_POS_MSG'         : 'Choose a position from 1 to 9: ',
         'PLAY_WITH_FRIEND_MSG'    : 'Do you want to play with a friend? (YES/NO) ',
         'PLAY_AGAIN_MSG'          : 'Do you want to play again? (YES/NO) ',
@@ -223,7 +223,6 @@ class TicTacToeGame:
         diagonal_2 = [self.mainArray[i][2 - i] for i in range(3)]
         player_data = GetPlayerDataList(player)
         return player_data == diagonal_1 or player_data == diagonal_2
-
 
 def GetPlayerDataList(player):
     return [player] * 3
