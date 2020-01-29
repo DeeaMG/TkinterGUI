@@ -1,4 +1,5 @@
 from tkinter import *
+from random import choice
 
 
 class GameWindow:
@@ -16,12 +17,6 @@ class GameWindow:
         self.onClick = False
         self.game_still_going = True
 
-       # self.GetPlayers()
-
-    def PlayGame(self, button):
-        self.SetButtTxtOnClick(button)
-        self.SwitchTurn()
-
     def SetGrid(self):
         canvas = Canvas(self.gameWnd, width=300, height=300, highlightthickness=0, bg="PaleGreen1")
         canvas.pack()
@@ -35,31 +30,31 @@ class GameWindow:
         canvas.create_line(1, 200, 300, 200, fill="black")
 
         self.buttonPos1 = Button(self.gameWnd, padx=40, pady=38, bd=0, bg='PaleGreen1', activebackground='PaleGreen1',
-                                 command=lambda: self.PlayGame(self.buttonPos1))
+                                 command=lambda: self.SetButtTxtOnClick(self.buttonPos1))
         self.buttonPos2 = Button(self.gameWnd, padx=40, pady=38, bd=0, bg='PaleGreen1', activebackground='PaleGreen1',
-                                 command=lambda: self.PlayGame(self.buttonPos2))
+                                 command=lambda: self.SetButtTxtOnClick(self.buttonPos2))
         self.buttonPos3 = Button(self.gameWnd, padx=40, pady=38, bd=0, bg='PaleGreen1', activebackground='PaleGreen1',
-                                 command=lambda: self.PlayGame(self.buttonPos3))
+                                 command=lambda: self.SetButtTxtOnClick(self.buttonPos3))
         self.buttonPos4 = Button(self.gameWnd, padx=40, pady=38, bd=0, bg='PaleGreen1', activebackground='PaleGreen1',
-                                 command=lambda: self.PlayGame(self.buttonPos4))
+                                 command=lambda: self.SetButtTxtOnClick(self.buttonPos4))
         self.buttonPos5 = Button(self.gameWnd, padx=40, pady=38, bd=0, bg='PaleGreen1', activebackground='PaleGreen1',
-                                 command=lambda: self.PlayGame(self.buttonPos5))
+                                 command=lambda: self.SetButtTxtOnClick(self.buttonPos5))
         self.buttonPos6 = Button(self.gameWnd, padx=40, pady=38, bd=0, bg='PaleGreen1', activebackground='PaleGreen1',
-                                 command=lambda: self.PlayGame(self.buttonPos6))
+                                 command=lambda: self.SetButtTxtOnClick(self.buttonPos6))
         self.buttonPos7 = Button(self.gameWnd, padx=40, pady=38, bd=0, bg='PaleGreen1', activebackground='PaleGreen1',
-                                 command=lambda: self.PlayGame(self.buttonPos7))
+                                 command=lambda: self.SetButtTxtOnClick(self.buttonPos7))
         self.buttonPos8 = Button(self.gameWnd, padx=40, pady=38, bd=0, bg='PaleGreen1', activebackground='PaleGreen1',
-                                 command=lambda: self.PlayGame(self.buttonPos8))
+                                 command=lambda: self.SetButtTxtOnClick(self.buttonPos8))
         self.buttonPos9 = Button(self.gameWnd, padx=40, pady=38, bd=0, bg='PaleGreen1', activebackground='PaleGreen1',
-                                 command=lambda: self.PlayGame(self.buttonPos9))
+                                 command=lambda: self.SetButtTxtOnClick(self.buttonPos9))
 
-        self.buttonPos1.place(x=2, y=2)
+        self.buttonPos1.place(x=2,   y=2)
         self.buttonPos2.place(x=102, y=2)
         self.buttonPos3.place(x=202, y=2)
-        self.buttonPos4.place(x=2, y=102)
+        self.buttonPos4.place(x=2,   y=102)
         self.buttonPos5.place(x=102, y=102)
         self.buttonPos6.place(x=202, y=102)
-        self.buttonPos7.place(x=2, y=202)
+        self.buttonPos7.place(x=2,   y=202)
         self.buttonPos8.place(x=102, y=202)
         self.buttonPos9.place(x=202, y=202)
 
@@ -73,7 +68,6 @@ class GameWindow:
         self.OnClickFlag()
         if self.onClick:
             self.player1 = text
-            print('player1 is : %s' % self.player1)
 
         self.SetPlayers()
 
@@ -83,12 +77,14 @@ class GameWindow:
         self.gameWnd.configure(background='light blue')
         self.gameWnd.geometry('300x300')
 
-        if answer[0].upper() == 'Y':
+        if answer == 'Yes':
             self.player2 = self.secondPlayer
-        elif answer[0].upper() == 'N':
+            self.playerComputer = ''
+        elif answer == 'No':
             self.playerComputer = self.secondPlayer
-        print('player2 is : %s\nplayerComputer is: %s' % (self.player2, self.playerComputer))
+            self.player2 = ''
         self.SetGrid()
+        self.GetComputerMove()
 
     def SetPlayers(self):
         if self.player1 == 'X':
@@ -106,10 +102,48 @@ class GameWindow:
         self.OnClickFlag()
 
         if not button.cget('text') and self.onClick:
-            button.configure(text=self.currentPlayer)
+            self.changeButtText(button)
 
-        # Checks if after pressing button player wins.
         self.CheckWinner()
+        self.SwitchTurn()
+        self.GetComputerMove()
+
+    def changeButtText(self, button):
+        if button == self.buttonPos1:
+            self.buttonPos1.configure(text=self.currentPlayer)
+        elif button == self.buttonPos2:
+            self.buttonPos2.configure(text=self.currentPlayer)
+        elif button == self.buttonPos3:
+            self.buttonPos3.configure(text=self.currentPlayer)
+        elif button == self.buttonPos4:
+            self.buttonPos4.configure(text=self.currentPlayer)
+        elif button == self.buttonPos5:
+            self.buttonPos5.configure(text=self.currentPlayer)
+        elif button == self.buttonPos6:
+            self.buttonPos6.configure(text=self.currentPlayer)
+        elif button == self.buttonPos7:
+            self.buttonPos7.configure(text=self.currentPlayer)
+        elif button == self.buttonPos8:
+            self.buttonPos8.configure(text=self.currentPlayer)
+        elif button == self.buttonPos9:
+            self.buttonPos9.configure(text=self.currentPlayer)
+
+    def getComputerPos(self):
+        hasFound = False
+
+        while not hasFound:
+            random_line = choice(self.buttList)
+            random_butt = choice(random_line)
+            print(random_butt)
+            if not random_butt.cget('text'):
+                self.changeButtText(random_butt)
+                hasFound = True
+                self.CheckWinner()
+                self.SwitchTurn()
+
+    def GetComputerMove(self):
+        if self.currentPlayer == self.playerComputer and self.secondPlayer == self.playerComputer:
+            self.getComputerPos()
 
     def SwitchTurn(self):
         if self.currentPlayer == self.player1:
@@ -119,12 +153,10 @@ class GameWindow:
 
     def CheckWinner(self):
         if self.CheckWinOnCols() or self.CheckWinOnRows() or self.CheckWinOnDiagonals():
-            print('Yeeey')
             self.gameWnd.destroy()
             PlayAgain(self.currentPlayer, self)
 
         elif self.IsTie():
-            print('TIE')
             self.gameWnd.destroy()
             PlayAgain(None, self)
 
@@ -213,6 +245,19 @@ class PlayAgain:
                 SelectPlayer(self.wndGame)
             elif button.cget('text') == 'No':
                 self.exitWnd.destroy()
+                self.byeWndMsg()
+
+    def byeWndMsg(self):
+        byeWnd = Tk()
+        byeWnd.title('Bye Bye :D')
+        byeWnd.configure(background='light blue')
+        byeWnd.geometry('350x50')
+
+        byeMsg = Label(byeWnd, text='Thank you for playing this game.', font=('Tahoma', 15), background='light blue')
+        byeMsg.place(x=30, y=10)
+
+        byeWnd.after(2000, lambda: byeWnd.destroy())
+
 
 game = GameWindow()
 
