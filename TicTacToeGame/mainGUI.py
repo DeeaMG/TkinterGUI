@@ -1,6 +1,17 @@
 from tkinter import *
 from random import choice
 
+TRANSLATE_DICT: dict = {
+    'WIN_TIE_MSG_LIST'      : ["{} won.", 'Congratulations', 'Is a tie.'],
+    'CHOOSE_PLAYER_MSG'     : 'Choose which player you want to be: ',
+    'PLAY_WITH_FRIEND_MSG'  : 'Do you want to play with a friend?',
+    'PLAY_AGAIN_MSG'        : 'Do you want to play again?',
+    'GOODBYE_MSG'           : 'Thank you for playing this game.',
+    'WND_TITLE'             : ['X and O Game', 'Play again.', 'Bye Bye :D']
+}
+
+#for msgName, msgValue in TRANSLATE_DICT.items() :
+#   locals().update({msgName : msgValue})
 
 class GameWindow:
     MAX_ROW: int = 3
@@ -15,7 +26,7 @@ class GameWindow:
         self.playerComputer = ''
         self.currentPlayer = ''
         self.onClick = False
-        self.game_still_going = True
+        self.game_done = False
 
     def SetGrid(self):
         canvas = Canvas(self.gameWnd, width=300, height=300, highlightthickness=0, bg="PaleGreen1")
@@ -48,13 +59,13 @@ class GameWindow:
         self.buttonPos9 = Button(self.gameWnd, padx=40, pady=38, bd=0, bg='PaleGreen1', activebackground='PaleGreen1',
                                  command=lambda: self.SetButtTxtOnClick(self.buttonPos9))
 
-        self.buttonPos1.place(x=2,   y=2)
+        self.buttonPos1.place(x=2  , y=2)
         self.buttonPos2.place(x=102, y=2)
         self.buttonPos3.place(x=202, y=2)
-        self.buttonPos4.place(x=2,   y=102)
+        self.buttonPos4.place(x=2  , y=102)
         self.buttonPos5.place(x=102, y=102)
         self.buttonPos6.place(x=202, y=102)
-        self.buttonPos7.place(x=2,   y=202)
+        self.buttonPos7.place(x=2  , y=202)
         self.buttonPos8.place(x=102, y=202)
         self.buttonPos9.place(x=202, y=202)
 
@@ -68,12 +79,11 @@ class GameWindow:
         self.OnClickFlag()
         if self.onClick:
             self.player1 = text
-
         self.SetPlayers()
 
     def SetSecondPlayer(self, answer):
         self.gameWnd = Tk()
-        self.gameWnd.title('X and O Game')
+        self.gameWnd.title(TRANSLATE_DICT['WND_TITLE'][0])
         self.gameWnd.configure(background='light blue')
         self.gameWnd.geometry('300x300')
 
@@ -101,43 +111,29 @@ class GameWindow:
     def SetButtTxtOnClick(self, button):
         self.OnClickFlag()
 
-        if not button.cget('text') and self.onClick:
+        if button.cget('text'):
+            return
+        elif not button.cget('text') and self.onClick:
             self.changeButtText(button)
-
-        self.CheckWinner()
-        self.SwitchTurn()
-        self.GetComputerMove()
+            self.CheckWinner()
+            if not self.game_done:
+                self.SwitchTurn()
+                self.GetComputerMove()
 
     def changeButtText(self, button):
-        if button == self.buttonPos1:
-            self.buttonPos1.configure(text=self.currentPlayer)
-        elif button == self.buttonPos2:
-            self.buttonPos2.configure(text=self.currentPlayer)
-        elif button == self.buttonPos3:
-            self.buttonPos3.configure(text=self.currentPlayer)
-        elif button == self.buttonPos4:
-            self.buttonPos4.configure(text=self.currentPlayer)
-        elif button == self.buttonPos5:
-            self.buttonPos5.configure(text=self.currentPlayer)
-        elif button == self.buttonPos6:
-            self.buttonPos6.configure(text=self.currentPlayer)
-        elif button == self.buttonPos7:
-            self.buttonPos7.configure(text=self.currentPlayer)
-        elif button == self.buttonPos8:
-            self.buttonPos8.configure(text=self.currentPlayer)
-        elif button == self.buttonPos9:
-            self.buttonPos9.configure(text=self.currentPlayer)
+        for line in self.buttList:
+            for butt in line:
+                if button == butt:
+                    butt.configure(text=self.currentPlayer)
 
     def getComputerPos(self):
         hasFound = False
-
         while not hasFound:
             random_line = choice(self.buttList)
             random_butt = choice(random_line)
-            print(random_butt)
             if not random_butt.cget('text'):
-                self.changeButtText(random_butt)
                 hasFound = True
+                self.changeButtText(random_butt)
                 self.CheckWinner()
                 self.SwitchTurn()
 
@@ -154,6 +150,7 @@ class GameWindow:
     def CheckWinner(self):
         if self.CheckWinOnCols() or self.CheckWinOnRows() or self.CheckWinOnDiagonals():
             self.gameWnd.destroy()
+            self.game_done = True
             PlayAgain(self.currentPlayer, self)
 
         elif self.IsTie():
@@ -196,7 +193,7 @@ class PlayAgain:
         self.wndGame = wndGame
         self.currentPlayer = currentPlayer
         self.exitWnd = Tk()
-        self.exitWnd.title('Play again.')
+        self.exitWnd.title(TRANSLATE_DICT['WND_TITLE'][1])
         self.exitWnd.configure(background='light blue')
         self.exitWnd.geometry('300x200')
 
@@ -212,18 +209,18 @@ class PlayAgain:
         self.exitWnd.mainloop()
 
     def TieMsg(self):
-        tieMsg = Label(self.exitWnd, text='Is a tie.', font=('Tahoma', 40), background='light blue')
+        tieMsg = Label(self.exitWnd, text=TRANSLATE_DICT['WIN_TIE_MSG_LIST'][2], font=('Tahoma', 40), background='light blue')
         tieMsg.place(x=65, y=15)
 
     def WinnerMsg(self):
-        congratLabel = Label(self.exitWnd, text='Congratulations!', font=('Tahoma', 25), background='light blue')
-        winLabel = Label(self.exitWnd, text='{} won.'.format(self.currentPlayer), font=('Tahoma', 20), background='light blue')
+        congratLabel = Label(self.exitWnd, text=TRANSLATE_DICT['WIN_TIE_MSG_LIST'][1], font=('Tahoma', 25), background='light blue')
+        winLabel = Label(self.exitWnd, text=TRANSLATE_DICT['WIN_TIE_MSG_LIST'][0].format(self.currentPlayer), font=('Tahoma', 20), background='light blue')
 
         congratLabel.place(x=30, y=5)
         winLabel.place(x=117, y=50)
 
     def PlayAgainMsg(self):
-        msgLabel = Label(self.exitWnd, text='Do you want to play again?', font=('Tahoma', 17), background='light blue')
+        msgLabel = Label(self.exitWnd, text=TRANSLATE_DICT['PLAY_AGAIN_MSG'], font=('Tahoma', 17), background='light blue')
         yesButton = Button(self.exitWnd, padx=30, pady=10, bd=1, bg='PaleGreen1', text='Yes', activebackground='PaleGreen2',
                            command=lambda: self.GetResponse(yesButton))
         noButton = Button(self.exitWnd, padx=30, pady=10, bd=1, bg='PaleGreen1', text='No', activebackground='PaleGreen2',
@@ -249,11 +246,11 @@ class PlayAgain:
 
     def byeWndMsg(self):
         byeWnd = Tk()
-        byeWnd.title('Bye Bye :D')
+        byeWnd.title(TRANSLATE_DICT['WND_TITLE'][2])
         byeWnd.configure(background='light blue')
         byeWnd.geometry('350x50')
 
-        byeMsg = Label(byeWnd, text='Thank you for playing this game.', font=('Tahoma', 15), background='light blue')
+        byeMsg = Label(byeWnd, text=TRANSLATE_DICT['GOODBYE_MSG'], font=('Tahoma', 15), background='light blue')
         byeMsg.place(x=30, y=10)
 
         byeWnd.after(2000, lambda: byeWnd.destroy())
@@ -266,17 +263,17 @@ class SelectPlayer:
         self.parent = parent
 
         self.window = Tk()
-        self.window.title('X and O Game')
+        self.window.title(TRANSLATE_DICT['WND_TITLE'][0])
         self.window.configure(background='light blue')
         self.window.geometry('300x100')
 
-        self.choosePlayerLabel = Label(self.window, text='Which player do you want to be:', font=('Tahoma', 15),
+        self.choosePlayerLabel = Label(self.window, text=TRANSLATE_DICT['CHOOSE_PLAYER_MSG'], font=('Tahoma', 15),
                                        background='light blue')
         self.XButton = Button(self.window, padx=25, pady=5, bd=1, bg='PaleGreen1', text='X', activebackground='PaleGreen2',
                               command=lambda: self.SetFirstPlayer(self.XButton.cget('text')))
         self.OButton = Button(self.window, padx=25, pady=5, bd=1, bg='PaleGreen1', text='O', activebackground='PaleGreen2',
                               command=lambda: self.SetFirstPlayer(self.OButton.cget('text')))
-        self.playWithFriendLabel = Label(self.window, text='Do you want to play with a friend?', font=('Tahoma', 14),
+        self.playWithFriendLabel = Label(self.window, text=TRANSLATE_DICT['PLAY_WITH_FRIEND_MSG'], font=('Tahoma', 14),
                                          background='light blue')
         self.yesButton = Button(self.window, padx=20, pady=5, bd=1, bg='PaleGreen1', text='Yes', activebackground='PaleGreen2',
                                 command=lambda: self.SetSecondPlayer(self.yesButton.cget('text')))
