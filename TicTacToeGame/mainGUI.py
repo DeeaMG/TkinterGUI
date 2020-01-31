@@ -1,7 +1,7 @@
 from tkinter import *
 from random import choice
 
-TRANSLATE_DICT: dict = {
+TRANSLATE_DICT = {
     'WIN_TIE_MSG_LIST'      : ["{} won.", 'Congratulations', 'Is a tie.'],
     'CHOOSE_PLAYER_MSG'     : 'Choose which player you want to be: ',
     'PLAY_WITH_FRIEND_MSG'  : 'Do you want to play with a friend?',
@@ -14,8 +14,8 @@ TRANSLATE_DICT: dict = {
 #   locals().update({msgName : msgValue})
 
 class GameWindow:
-    MAX_ROW: int = 3
-    MAX_COL: int = 3
+    MAX_ROW = 3
+    MAX_COL = 3
 
     def __init__(self):
         self.gameWnd = None
