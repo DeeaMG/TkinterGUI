@@ -267,7 +267,7 @@ class SelectPlayer:
         self.window.configure(background='light blue')
         self.window.geometry('300x100')
 
-        self.choosePlayerLabel = Label(self.window, text=TRANSLATE_DICT['CHOOSE_PLAYER_MSG'], font=('Tahoma', 15),
+        self.choosePlayerLabel = Label(self.window, text=TRANSLATE_DICT['CHOOSE_PLAYER_MSG'], font=('Tahoma', 13),
                                        background='light blue')
         self.XButton = Button(self.window, padx=25, pady=5, bd=1, bg='PaleGreen1', text='X', activebackground='PaleGreen2',
                               command=lambda: self.SetFirstPlayer(self.XButton.cget('text')))
@@ -280,7 +280,7 @@ class SelectPlayer:
         self.noButton = Button(self.window, padx=20, pady=5, bd=1, bg='PaleGreen1', text='No', activebackground='PaleGreen2',
                                command=lambda: self.SetSecondPlayer(self.noButton.cget('text')))
 
-        self.choosePlayerLabel.place(x=2, y=5)
+        self.choosePlayerLabel.place(x=7, y=5)
         self.XButton.place(x=70, y=35)
         self.OButton.place(x=160, y=35)
 
